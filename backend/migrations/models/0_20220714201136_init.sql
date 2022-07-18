@@ -1,0 +1,25 @@
+-- upgrade --
+CREATE TABLE IF NOT EXISTS "user" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "first_name" VARCHAR(255) NOT NULL,
+    "last_name" VARCHAR(255) NOT NULL,
+    "patronymic" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "employee" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "position" VARCHAR(255),
+    "work_date_start" TIMESTAMPTZ,
+    "salary" DECIMAL(12,2),
+    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "chief_id" INT NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE,
+    "employee_id" INT NOT NULL UNIQUE REFERENCES "user" ("id") ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "aerich" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "version" VARCHAR(255) NOT NULL,
+    "app" VARCHAR(100) NOT NULL,
+    "content" JSONB NOT NULL
+);
